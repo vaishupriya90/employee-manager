@@ -21,7 +21,7 @@ public class EmployeeService {
     }
 
     public Employee addEmployee(Employee employee){
-        employee.setEmployeeCode(UUID.randomUUID().toString());
+        employee.setEmployeeCode(UUID.randomUUID().toString());// UUID generates a random number
         return employeeRepository.save(employee);
     }
 
@@ -32,7 +32,17 @@ public class EmployeeService {
     public Employee findEmployeeById(Long id){
         return employeeRepository.findEmployeeById(id)
                 .orElseThrow(()-> new userNotFoundException("User by id " + id + " was not found"));
+        //findByEmployeeId method is not available by default so we have to create this method in the employeeRepo
+        //which will be a query method- meaning: just the method signature is enough , spring will tc of the implementation
+        //provided with proper naming convention - findEmployeeById.
+
+        //this method returns an optional<>, but our expected return type is Employee,
+        // so  to fix this we will have to create an exception to be thrown if the
+        //employee is not available with the given id.
+
+        //userNotFoundException is a custom exception created with a custom message.
     }
+
 
     public Employee updateEmployee(Employee employee){
         return employeeRepository.save(employee);
